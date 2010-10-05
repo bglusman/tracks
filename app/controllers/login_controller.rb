@@ -86,12 +86,8 @@ class LoginController < ApplicationController
         return unless should_expire_sessions?
         # Get expiry time (allow ten seconds window for the case where we have none)
         expiry_time = session['expiry_time'] || Time.now + 10
-        @time_left = expiry_time - Time.now
-        if @time_left < (10*60) # Session will time out before the next check
-          @msg = "Session has timed out. Please "
-        else
-          @msg = ""
-        end
+        time_left = expiry_time - Time.now
+        @session_expired = ( time_left < (10*60) ) # Session will time out before the next check
       end
     end
     respond_to do |format|

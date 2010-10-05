@@ -1,3 +1,6 @@
-unless @msg == ""
-  page.replace_html "info", content_tag("div", @msg + link_to("log in again.", :controller => "login", :action => "login"), "class" => "warning")
+if @session_expired
+  page << "console.log('expired');"
+  page << "$('div#navcontainer').hide();"
+  page << "theHtml = \'<div class=\"warning\">Your session has timed out. Please " + link_to("log in again.", :controller => "login", :action => "login") + "</div>\'"
+  page << "$('div#content').html(theHtml);"
 end
